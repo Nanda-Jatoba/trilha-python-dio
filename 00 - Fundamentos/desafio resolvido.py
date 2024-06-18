@@ -7,9 +7,6 @@ num_saques, lim_saques = 0, 3
 usuarios, contas = {}, {}
 conta = 1
 
-user_valido = ["Usuario válido", 12082004 , 28325243031, "Rua A", 123, "Jatiúca", "Maceió", "AL"]
-cpf_repetido = ("CPF Repetido", 17092002, 28325243031, "Rua B", 987, "Ponta Verde", "Maceió", "AL")
-
 def valor_invalido():
         print("\nO valor informado é INVÁLIDO.\n")
 
@@ -53,7 +50,7 @@ Saídas:
 Saldo: R$ {saldo:.2f}
 ==========================================\n\n""")
 
-def criar_usuario(*, nome, data_nasc, cpf, rua, numero, bairro, cidade, estado):
+def criar_usuario(*, nome, data_nasc, cpf, rua = "N/A", numero = 0, bairro = "N/A", cidade = "N/A", estado = "N/A"):
     global usuarios
     user = {"nome":nome, "data de nascimento": data_nasc, "cpf": cpf, "contas":[], "endereço": {"logradouro": rua, "numero": numero, "bairro": bairro, "cidade": cidade + "/" + estado}}
 
@@ -100,7 +97,7 @@ while True:
     [nc] Nova conta
     [lu] Listar usuarios
     [lc] Listar contas
-    [lp] Listar contas por CPF (ainda nÃo funciona)
+    [lp] Listar contas por CPF (ainda não funciona)
      [q] Sair
 """)
     opcao = input("=> ")
@@ -121,11 +118,24 @@ while True:
         saldo = saldo
     
     elif opcao == "nu":
-        # nome = str(input("\nInforme o seu nome: \n"))
-        # data = str(input("\nInforme a sua data de nascimento: \n"))
-        # cpf = int(input("\nInforme o seu cpf: \n"))
-        criar_usuario(nome="Usuario válido", data_nasc=12082004 , cpf=28325243031, rua="Rua A", numero=123, bairro="Jatiúca", cidade="Maceió", estado="AL")
-        criar_usuario(nome="CPF Repetido", data_nasc=17092002, cpf=28325243032, rua="Rua B", numero=987, bairro="Ponta Verde", cidade="Maceió", estado="AL")
+        nome = str(input("\nInforme o seu nome: \n"))
+        data = str(input("\nInforme a sua data de nascimento: \n"))
+        cpf = int(input("\nInforme o seu cpf: \n"))
+        p_endereco = str(input("\nDeseja informar seu endereço? [S/N]"))
+        
+        if p_endereco == "s":
+            rua = str(input("\nInforme a sua rua: \n"))
+            numero = int(input("\nInforme o número: \n"))
+            bairro = str(input("\nInforme o bairro: \n"))
+            cidade = str(input("\nInforme a cidade: \n"))
+            estado = str(input("\nInforme o estado: \n"))
+            criar_usuario(nome=nome, data_nasc=data, cpf=cpf, rua=rua, numero=numero, bairro=bairro, cidade=cidade, estado=estado)
+        elif p_endereco == "n":
+            print("OK")
+            criar_usuario(nome=nome, data_nasc=data, cpf=cpf)
+        else: 
+            valor_invalido()
+            
     
     elif opcao == "nc":
         criar_conta(28325243031, conta)
@@ -147,6 +157,5 @@ while True:
     elif opcao == "q":
         break
 
-        #### NAO SEI PQ APARECE QUANDO FAZ O DEPOSITO
     else:
         print("\nOperação inválida, por favor selecione novamente a operação desejada.")
